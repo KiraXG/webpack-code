@@ -78,7 +78,7 @@ module.exports = {
             },
             /* 图标 */
             {
-                test: /\.(ttf|woff2?)$/,
+                test: /\.(ttf|woff2?|mp3|mp4)$/,
                 type: "asset/resource", // 原封不动的输出，不会转换乘base64的格式
                 generator: {
                     // 输出图标名称和路径

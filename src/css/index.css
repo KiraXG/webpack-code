@@ -2,6 +2,6 @@
     width: 200px;
     height: 200px;
     background-color: pink;
-    background-image: url('../image/chuxue.jpg');
+    background-image: url("../image/chuxue.jpg");
     background-size: cover;
 }

@@ -4,6 +4,7 @@
  */
 
 const path = require("path"); // nodejs核心模块，专门用来处理路径问题的
+const ESLintPlugin = require("eslint-webpack-plugin"); // eslint插件
 
 module.exports = {
     // 入口
@@ -85,11 +86,25 @@ module.exports = {
                     filename: "static/fonts/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
                 },
             },
+            {
+                test: /\.m?js$/,
+                exclude: /node_modules/, // 排除node_modules中的js文件
+                use: {
+                    loader: "babel-loader",
+                    options: {
+                        presets: ["@babel/preset-env"],
+                    },
+                },
+            },
         ],
     },
     // 插件
     plugins: [
-        // plugin的配置
+        /* plugin的配置 */
+        // eslint配置
+        new ESLintPlugin({
+            context: path.resolve(__dirname, "src"), // 只检查src目录下的文件
+        }),
     ],
     // 模式
     mode: "development",

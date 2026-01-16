@@ -10,11 +10,11 @@ module.exports = {
     entry: "./src/main.js",
     // 输出
     output: {
-        // 文件输出路径
+        // 所有文件输出路径
         // __dirname nodejs变量，代表当前文件的文件夹目录
         path: path.resolve(__dirname, "dist"), // 绝对路径
-        // 文件名
-        filename: "main.js",
+        // 入口文件打包输出文件名和路径
+        filename: "js/main.js",
     },
     // 加载器
     module: {
@@ -68,6 +68,10 @@ module.exports = {
                         */
                         maxSize: 10 * 1024
                     }
+                },
+                generator: {
+                    // 输出图片名称和路径
+                    filename: "static/images/[hash:10][ext][query]" // [hash:10]代表取前十位的hash值
                 }
             }
         ],

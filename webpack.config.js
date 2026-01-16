@@ -76,6 +76,15 @@ module.exports = {
                     filename: "static/images/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
                 },
             },
+            /* 图标 */
+            {
+                test: /\.(ttf|woff2?)$/,
+                type: "asset/resource", // 原封不动的输出，不会转换乘base64的格式
+                generator: {
+                    // 输出图标名称和路径
+                    filename: "static/fonts/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
+                },
+            },
         ],
     },
     // 插件

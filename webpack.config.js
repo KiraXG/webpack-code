@@ -15,6 +15,8 @@ module.exports = {
         path: path.resolve(__dirname, "dist"), // 绝对路径
         // 入口文件打包输出文件名和路径
         filename: "js/main.js",
+        // 打包前自动清除上次的打包文件
+        clean: true,
     },
     // 加载器
     module: {
@@ -27,7 +29,7 @@ module.exports = {
                     // 执行顺序是从右往左（从下往上）
                     "style-loader", // 将js中css通过创建style标签添加到html文件中并生效
                     "css-loader", // 将css资源编译成commonjs的模块到js中
-                ]
+                ],
             },
             {
                 test: /\.less$/,
@@ -37,7 +39,7 @@ module.exports = {
                     "style-loader",
                     "css-loader",
                     "less-loader", // 将less文件编译成less文件
-                ]
+                ],
             },
             {
                 test: /\.s[ac]ss$/, // 同时处理sass和scss文件
@@ -45,7 +47,7 @@ module.exports = {
                     "style-loader",
                     "css-loader",
                     "sass-loader", // 将sass文件编译成less文件
-                ]
+                ],
             },
             {
                 test: /\.styl$/,
@@ -53,7 +55,7 @@ module.exports = {
                     "style-loader",
                     "css-loader",
                     "stylus-loader", // 将sass文件编译成less文件
-                ]
+                ],
             },
             /* 图片 */
             {
@@ -66,14 +68,14 @@ module.exports = {
                            优点：减少请求数量
                            缺点：体积会更大
                         */
-                        maxSize: 10 * 1024
-                    }
+                        maxSize: 10 * 1024,
+                    },
                 },
                 generator: {
                     // 输出图片名称和路径
-                    filename: "static/images/[hash:10][ext][query]" // [hash:10]代表取前十位的hash值
-                }
-            }
+                    filename: "static/images/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
+                },
+            },
         ],
     },
     // 插件

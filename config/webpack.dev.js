@@ -4,7 +4,7 @@
  */
 
 const path = require("path"); // nodejs核心模块，专门用来处理路径问题的
-const ESLintPlugin = require("eslint-webpack-plugin"); // eslint插件
+// const ESLintPlugin = require("eslint-webpack-plugin"); // eslint插件
 const HtmlWebpackPlugin = require('html-webpack-plugin'); // html插件
 
 module.exports = {
@@ -14,11 +14,13 @@ module.exports = {
     output: {
         // 所有文件输出路径
         // __dirname nodejs变量，代表当前文件的文件夹目录
-        path: path.resolve(__dirname, "dist"), // 绝对路径
+        // path: path.resolve(__dirname, "../dist"), // 绝对路径
+        // **开发模式没有输出**
+        path: undefined,
         // 入口文件打包输出文件名和路径
-        filename: "js/main.js",
-        // 打包前自动清除上次的打包文件
-        clean: true,
+        filename: "static/js/main.js",
+        // 打包前自动清除上次的打包文件**开发模式没有输出**
+        // clean: true,
     },
     // 加载器
     module: {
@@ -103,13 +105,13 @@ module.exports = {
     plugins: [
         /* plugin的配置 */
         // eslint配置
-        new ESLintPlugin({
-            context: path.resolve(__dirname, "src"), // 只检查src目录下的文件
-        }),
+        // new ESLintPlugin({
+        //     context: path.resolve(__dirname, "../src"), // 只检查src目录下的文件
+        // }),
         new HtmlWebpackPlugin({
             // 模板，以 public/index.html 文件创建新的html文件
             // 新的html文件特点：1. 结构和原来的一直 2. 自动引入打包的资源
-            template: path.resolve(__dirname, "public/index.html")
+            template: path.resolve(__dirname, "../public/index.html")
         }),
     ],
     // 开发服务器

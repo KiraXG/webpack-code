@@ -2,3 +2,6 @@
 # npx webpack ./src/main.js --mode=development *指定文件入口并打包为`开发环境`*
 # npx webpack ./src/main.js --mode=production  `生产环境`
 # npx webpack `打包资源`
+# npx webpack serve `启动开发服务器`
+# npx webpack serve --config ./config/webpack.dev.js `启动开发服务器（指定文件）`
+# npx webpack --config ./config/webpack.prod.js `打包资源（指定文件）`

@@ -5,7 +5,7 @@
 
 const path = require("path"); // nodejs核心模块，专门用来处理路径问题的
 // const ESLintPlugin = require("eslint-webpack-plugin"); // eslint插件
-const HtmlWebpackPlugin = require('html-webpack-plugin'); // html插件
+const HtmlWebpackPlugin = require("html-webpack-plugin"); // html插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 提取css成单独文件
 
 module.exports = {
@@ -32,6 +32,16 @@ module.exports = {
                     // 执行顺序是从右往左（从下往上）
                     MiniCssExtractPlugin.loader,
                     "css-loader", // 将css资源编译成commonjs的模块到js中
+                    {
+                        // postcss-loader 要在css-loader的后面，又要在less/scss/stylus-loader的前面
+                        loader: "postcss-loader",
+                        options: {
+                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
+                            postcssOptions: {
+                                plugins: ["postcss-preset-env"],
+                            },
+                        },
+                    },
                 ],
             },
             {
@@ -41,6 +51,16 @@ module.exports = {
                     // 多个loader用‘use’
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    {
+                        // postcss-loader 要在css-loader的后面，又要在less-loader的前面
+                        loader: "postcss-loader",
+                        options: {
+                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
+                            postcssOptions: {
+                                plugins: ["postcss-preset-env"],
+                            },
+                        },
+                    },
                     "less-loader", // 将less文件编译成less文件
                 ],
             },
@@ -49,6 +69,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    {
+                        // postcss-loader 要在css-loader的后面，又要在less-loader的前面
+                        loader: "postcss-loader",
+                        options: {
+                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
+                            postcssOptions: {
+                                plugins: ["postcss-preset-env"],
+                            },
+                        },
+                    },
                     "sass-loader", // 将sass文件编译成less文件
                 ],
             },
@@ -57,6 +87,16 @@ module.exports = {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
+                    {
+                        // postcss-loader 要在css-loader的后面，又要在less-loader的前面
+                        loader: "postcss-loader",
+                        options: {
+                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
+                            postcssOptions: {
+                                plugins: ["postcss-preset-env"],
+                            },
+                        },
+                    },
                     "stylus-loader", // 将sass文件编译成less文件
                 ],
             },
@@ -110,11 +150,11 @@ module.exports = {
         new HtmlWebpackPlugin({
             // 模板，以 public/index.html 文件创建新的html文件
             // 新的html文件特点：1. 结构和原来的一直 2. 自动引入打包的资源
-            template: path.resolve(__dirname, "../public/index.html")
+            template: path.resolve(__dirname, "../public/index.html"),
         }),
         new MiniCssExtractPlugin({
-            filename: "static/css/main.css"
-        })
+            filename: "static/css/main.css",
+        }),
     ],
     // 开发服务器
     // devServer: {

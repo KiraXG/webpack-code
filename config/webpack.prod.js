@@ -142,4 +142,5 @@ module.exports = {
     // },
     // 模式
     mode: "production",
+    devtool: "source-map", // 优点：包含行列映射；缺点：打包编译速度更慢
 };

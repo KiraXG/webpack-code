@@ -122,4 +122,5 @@ module.exports = {
     },
     // 模式
     mode: "development",
+    devtool: "cheap-module-source-map" // 优点：打包编译速度快，只包含行映射；缺点：没有列映射
 };

@@ -8,6 +8,26 @@ const path = require("path"); // nodejs核心模块，专门用来处理路径�
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // html插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 提取css成单独文件
 
+//
+function getStyleLoader(pre) {
+    return [
+        // 执行顺序是从右往左（从下往上）
+        MiniCssExtractPlugin.loader,
+        "css-loader", // 将css资源编译成commonjs的模块到js中
+        {
+            // postcss-loader 要在css-loader的后面，又要在less/scss/stylus-loader的前面
+            loader: "postcss-loader",
+            options: {
+                // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
+                postcssOptions: {
+                    plugins: ["postcss-preset-env"],
+                },
+            },
+        },
+        pre,
+    ].filter(Boolean); // 过滤掉undefined和null
+}
+
 module.exports = {
     // 入口
     entry: "./src/main.js",
@@ -28,75 +48,24 @@ module.exports = {
             /* 样式 */
             {
                 test: /\.css$/, // 只检测.css文件
-                use: [
-                    // 执行顺序是从右往左（从下往上）
-                    MiniCssExtractPlugin.loader,
-                    "css-loader", // 将css资源编译成commonjs的模块到js中
-                    {
-                        // postcss-loader 要在css-loader的后面，又要在less/scss/stylus-loader的前面
-                        loader: "postcss-loader",
-                        options: {
-                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
-                            postcssOptions: {
-                                plugins: ["postcss-preset-env"],
-                            },
-                        },
-                    },
-                ],
+                use: getStyleLoader(),
             },
             {
                 test: /\.less$/,
                 // loader: "xxx", // 一个loader用‘loader’
-                use: [
-                    // 多个loader用‘use’
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        // postcss-loader 要在css-loader的后面，又要在less-loader的前面
-                        loader: "postcss-loader",
-                        options: {
-                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
-                            postcssOptions: {
-                                plugins: ["postcss-preset-env"],
-                            },
-                        },
-                    },
-                    "less-loader", // 将less文件编译成less文件
-                ],
+                use: getStyleLoader("less-loader"), // 将less文件编译成less文件
             },
             {
                 test: /\.s[ac]ss$/, // 同时处理sass和scss文件
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        // postcss-loader 要在css-loader的后面，又要在less-loader的前面
-                        loader: "postcss-loader",
-                        options: {
-                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
-                            postcssOptions: {
-                                plugins: ["postcss-preset-env"],
-                            },
-                        },
-                    },
+                    ...getStyleLoader(),
                     "sass-loader", // 将sass文件编译成less文件
                 ],
             },
             {
                 test: /\.styl$/,
                 use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    {
-                        // postcss-loader 要在css-loader的后面，又要在less-loader的前面
-                        loader: "postcss-loader",
-                        options: {
-                            // 如果要给loader写配置option要写成对象的形式，不用的话直接写名字
-                            postcssOptions: {
-                                plugins: ["postcss-preset-env"],
-                            },
-                        },
-                    },
+                    ...getStyleLoader(),
                     "stylus-loader", // 将sass文件编译成less文件
                 ],
             },

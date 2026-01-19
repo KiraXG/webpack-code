@@ -7,6 +7,7 @@ const path = require("path"); // nodejs核心模块，专门用来处理路径�
 // const ESLintPlugin = require("eslint-webpack-plugin"); // eslint插件
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // html插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 提取css成单独文件
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // 压缩css代码
 
 //
 function getStyleLoader(pre) {
@@ -107,6 +108,14 @@ module.exports = {
                     },
                 },
             },
+        ],
+    },
+    // 优化
+    optimization: {
+        minimizer: [
+            // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
+            // `...`,
+            new CssMinimizerPlugin(),
         ],
     },
     // 插件

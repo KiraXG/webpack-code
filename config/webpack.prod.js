@@ -45,68 +45,72 @@ module.exports = {
     // 加载器
     module: {
         rules: [
-            // loader的配置
-            /* 样式 */
             {
-                test: /\.css$/, // 只检测.css文件
-                use: getStyleLoader(),
-            },
-            {
-                test: /\.less$/,
-                // loader: "xxx", // 一个loader用‘loader’
-                use: getStyleLoader("less-loader"), // 将less文件编译成less文件
-            },
-            {
-                test: /\.s[ac]ss$/, // 同时处理sass和scss文件
-                use: [
-                    ...getStyleLoader(),
-                    "sass-loader", // 将sass文件编译成less文件
-                ],
-            },
-            {
-                test: /\.styl$/,
-                use: [
-                    ...getStyleLoader(),
-                    "stylus-loader", // 将sass文件编译成less文件
-                ],
-            },
-            /* 图片 */
-            {
-                test: /\.(png|jpe?g|gif|webp|svg)$/,
-                type: "asset",
-                parser: {
-                    dataUrlCondition: {
-                        // 小于 10kb 的图片转 base64
-                        /* 
+                oneOf: [
+                    // loader的配置
+                    /* 样式 */
+                    {
+                        test: /\.css$/, // 只检测.css文件
+                        use: getStyleLoader(),
+                    },
+                    {
+                        test: /\.less$/,
+                        // loader: "xxx", // 一个loader用‘loader’
+                        use: getStyleLoader("less-loader"), // 将less文件编译成less文件
+                    },
+                    {
+                        test: /\.s[ac]ss$/, // 同时处理sass和scss文件
+                        use: [
+                            ...getStyleLoader(),
+                            "sass-loader", // 将sass文件编译成less文件
+                        ],
+                    },
+                    {
+                        test: /\.styl$/,
+                        use: [
+                            ...getStyleLoader(),
+                            "stylus-loader", // 将sass文件编译成less文件
+                        ],
+                    },
+                    /* 图片 */
+                    {
+                        test: /\.(png|jpe?g|gif|webp|svg)$/,
+                        type: "asset",
+                        parser: {
+                            dataUrlCondition: {
+                                // 小于 10kb 的图片转 base64
+                                /* 
                            优点：减少请求数量
                            缺点：体积会更大
                         */
-                        maxSize: 10 * 1024,
+                                maxSize: 10 * 1024,
+                            },
+                        },
+                        generator: {
+                            // 输出图片名称和路径
+                            filename: "static/images/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
+                        },
                     },
-                },
-                generator: {
-                    // 输出图片名称和路径
-                    filename: "static/images/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
-                },
-            },
-            /* 图标 */
-            {
-                test: /\.(ttf|woff2?|mp3|mp4)$/,
-                type: "asset/resource", // 原封不动的输出，不会转换乘base64的格式
-                generator: {
-                    // 输出图标名称和路径
-                    filename: "static/fonts/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
-                },
-            },
-            {
-                test: /\.m?js$/,
-                exclude: /node_modules/, // 排除node_modules中的js文件
-                use: {
-                    loader: "babel-loader",
-                    options: {
-                        presets: ["@babel/preset-env"],
+                    /* 图标 */
+                    {
+                        test: /\.(ttf|woff2?|mp3|mp4)$/,
+                        type: "asset/resource", // 原封不动的输出，不会转换乘base64的格式
+                        generator: {
+                            // 输出图标名称和路径
+                            filename: "static/fonts/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
+                        },
                     },
-                },
+                    {
+                        test: /\.m?js$/,
+                        exclude: /node_modules/, // 排除node_modules中的js文件
+                        use: {
+                            loader: "babel-loader",
+                            options: {
+                                presets: ["@babel/preset-env"],
+                            },
+                        },
+                    },
+                ],
             },
         ],
     },

@@ -107,7 +107,11 @@ module.exports = {
                         use: {
                             loader: "babel-loader",
                             options: {
-                                presets: ["@babel/preset-env"],
+                                // presets: ["@babel/preset-env"],
+                                // cacheDirectory: true, // 开启babel缓存
+                                /* 缓存文件默认路径在"node_modules/.cache/babel-loader" */
+                                cacheDirectory: path.resolve(__dirname, "../node_modules/.cache/babel-cache"), // 开启babel缓存
+                                cacheCompression: false, // 关闭缓存文件压缩
                             },
                         },
                     },
@@ -130,6 +134,8 @@ module.exports = {
         // new ESLintPlugin({
         //     context: path.resolve(__dirname, "../src"), // 只检查src目录下的文件
         //     exclude: "node_modules", // 默认值
+        //     cache: true, // 开启缓存
+        //     cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslint-cache")
         // }),
         new HtmlWebpackPlugin({
             // 模板，以 public/index.html 文件创建新的html文件

@@ -3,11 +3,15 @@
  * @type {import('webpack').Configuration}
  */
 
+const os = require("os");
 const path = require("path"); // nodejs核心模块，专门用来处理路径问题的
 // const ESLintPlugin = require("eslint-webpack-plugin"); // eslint插件
 const HtmlWebpackPlugin = require("html-webpack-plugin"); // html插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 提取css成单独文件
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // 压缩css代码
+const TerserWebpackPlugin = require("terser-webpack-plugin");
+
+const threads = os.cpus().length;
 
 //
 function getStyleLoader(pre) {
@@ -104,16 +108,24 @@ module.exports = {
                         test: /\.m?js$/,
                         // include: path.resolve(__dirname, "../src"), // 只处理src目录下的文件
                         exclude: /node_modules/, // 排除node_modules中的js文件
-                        use: {
-                            loader: "babel-loader",
-                            options: {
-                                // presets: ["@babel/preset-env"],
-                                // cacheDirectory: true, // 开启babel缓存
-                                /* 缓存文件默认路径在"node_modules/.cache/babel-loader" */
-                                cacheDirectory: path.resolve(__dirname, "../node_modules/.cache/babel-cache"), // 开启babel缓存
-                                cacheCompression: false, // 关闭缓存文件压缩
+                        use: [
+                            {
+                                loader: "thread-loader", // 开启多进程
+                                options: {
+                                    works: threads, // 进程数量
+                                },
                             },
-                        },
+                            {
+                                loader: "babel-loader",
+                                options: {
+                                    // presets: ["@babel/preset-env"],
+                                    // cacheDirectory: true, // 开启babel缓存
+                                    /* 缓存文件默认路径在"node_modules/.cache/babel-loader" */
+                                    cacheDirectory: path.resolve(__dirname, "../node_modules/.cache/babel-cache"), // 开启babel缓存
+                                    cacheCompression: false, // 关闭缓存文件压缩
+                                },
+                            },
+                        ],
                     },
                 ],
             },
@@ -124,7 +136,12 @@ module.exports = {
         minimizer: [
             // 在 webpack@5 中，你可以使用 `...` 语法来扩展现有的 minimizer（即 `terser-webpack-plugin`），将下一行取消注释
             // `...`,
+            // 压缩css
             new CssMinimizerPlugin(),
+            // 压缩js
+            new TerserWebpackPlugin({
+                parallel: threads, // 开启多进程和设置进程数量
+            }),
         ],
     },
     // 插件
@@ -135,7 +152,8 @@ module.exports = {
         //     context: path.resolve(__dirname, "../src"), // 只检查src目录下的文件
         //     exclude: "node_modules", // 默认值
         //     cache: true, // 开启缓存
-        //     cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslint-cache")
+        //     cacheLocation: path.resolve(__dirname, "../node_modules/.cache/eslint-cache"),
+        //     threads, // 开启多进程和设置进程数量
         // }),
         new HtmlWebpackPlugin({
             // 模板，以 public/index.html 文件创建新的html文件

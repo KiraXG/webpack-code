@@ -123,6 +123,7 @@ module.exports = {
                                     /* 缓存文件默认路径在"node_modules/.cache/babel-loader" */
                                     cacheDirectory: path.resolve(__dirname, "../node_modules/.cache/babel-cache"), // 开启babel缓存
                                     cacheCompression: false, // 关闭缓存文件压缩
+                                    plugins: ["@babel/plugin-transform-runtime"], // 减少代码体积
                                 },
                             },
                         ],

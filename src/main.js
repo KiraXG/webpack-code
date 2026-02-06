@@ -1,3 +1,8 @@
+// 完整引入
+// import "core-js";
+// 按需引入
+// import "core-js/es/promise";
+
 import count from "./js/count.js";
 import sum from "./js/sum.js";
 // 想要webpack打包资源，必须引入该资源
@@ -15,7 +20,7 @@ document.getElementById("btn").onclick = function () {
     /* import 动态导入，会将动态导入的文件代码分割（拆分成单独模块），在需要使用的时候自动加载 */
     // eslint不能识别动态导入需要，需要额外追加配置 plugins: ["import"]
     // /* webpackChunkName: "math" */ webpack魔法命名
-    import(/* webpackChunkName: "math" */"./js/math.js").then(({ mul }) => {
+    import(/* webpackChunkName: "math" */ "./js/math.js").then(({ mul }) => {
         console.log(mul(2, 3));
     });
 };
@@ -26,3 +31,12 @@ if (module.hot) {
     module.hot.accept(); // 不传参默认匹配所有js文件
     // module.hot.accept("./js/count.js");
 }
+
+new Promise((resolve) => {
+    setTimeout(() => {
+        resolve();
+    }, 1000);
+});
+
+let arr = [1, 2, 3];
+console.log(arr.includes(1))

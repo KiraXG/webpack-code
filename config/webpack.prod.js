@@ -43,9 +43,11 @@ module.exports = {
         // __dirname nodejs变量，代表当前文件的文件夹目录
         path: path.resolve(__dirname, "../dist"), // 绝对路径
         // 入口文件打包输出文件名和路径
-        filename: "js/main.js",
+        filename: "js/[name].js",
         // 打包输出的其他文件命名
-        chunkFilename: "js/[name].js",
+        chunkFilename: "js/[name].chunk.js",
+        // 图片、字体等通过type:asset处理资源命名方式
+        assetModuleFilename: "static/fonts/[hash:10][ext][query]",
         // 打包前自动清除上次的打包文件
         clean: true,
     },
@@ -93,19 +95,19 @@ module.exports = {
                                 maxSize: 10 * 1024,
                             },
                         },
-                        generator: {
-                            // 输出图片名称和路径
-                            filename: "static/images/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
-                        },
+                        // generator: {
+                        //     // 输出图片名称和路径
+                        //     filename: "static/images/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
+                        // },
                     },
                     /* 图标 */
                     {
                         test: /\.(ttf|woff2?|mp3|mp4)$/,
                         type: "asset/resource", // 原封不动的输出，不会转换乘base64的格式
-                        generator: {
-                            // 输出图标名称和路径
-                            filename: "static/fonts/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
-                        },
+                        // generator: {
+                        //     // 输出图标名称和路径
+                        //     filename: "static/fonts/[hash:10][ext][query]", // [hash:10]代表取前十位的hash值
+                        // },
                     },
                     {
                         test: /\.m?js$/,
@@ -198,7 +200,8 @@ module.exports = {
             template: path.resolve(__dirname, "../public/index.html"),
         }),
         new MiniCssExtractPlugin({
-            filename: "static/css/main.css",
+            filename: "static/css/[name].css",
+            chunkFilename: "static/css/[name].chunk.css",
         }),
     ],
     // 开发服务器

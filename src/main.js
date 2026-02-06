@@ -14,7 +14,8 @@ console.log(sum(1, 2, 3, 4));
 document.getElementById("btn").onclick = function () {
     /* import 动态导入，会将动态导入的文件代码分割（拆分成单独模块），在需要使用的时候自动加载 */
     // eslint不能识别动态导入需要，需要额外追加配置 plugins: ["import"]
-    import("./js/math.js").then(({ mul }) => {
+    // /* webpackChunkName: "math" */ webpack魔法命名
+    import(/* webpackChunkName: "math" */"./js/math.js").then(({ mul }) => {
         console.log(mul(2, 3));
     });
 };

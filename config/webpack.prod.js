@@ -44,6 +44,8 @@ module.exports = {
         path: path.resolve(__dirname, "../dist"), // 绝对路径
         // 入口文件打包输出文件名和路径
         filename: "js/main.js",
+        // 打包输出的其他文件命名
+        chunkFilename: "js/[name].js",
         // 打包前自动清除上次的打包文件
         clean: true,
     },

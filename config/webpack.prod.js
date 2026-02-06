@@ -11,6 +11,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 提取css成
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // 压缩css代码
 const TerserWebpackPlugin = require("terser-webpack-plugin");
 // const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+const WorkboxPlugin = require("workbox-webpack-plugin");
 
 const threads = os.cpus().length;
 
@@ -181,7 +182,7 @@ module.exports = {
         splitChunks: {
             chunks: "all", // 全部都要分割
             // 其他的都用默认值
-        }
+        },
     },
     // 插件
     plugins: [
@@ -202,6 +203,12 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: "static/css/[name].css",
             chunkFilename: "static/css/[name].chunk.css",
+        }),
+        new WorkboxPlugin.GenerateSW({
+            // 这些选项帮助快速启用 ServiceWorkers
+            // 不允许遗留任何“旧的” ServiceWorkers
+            clientsClaim: true,
+            skipWaiting: true,
         }),
     ],
     // 开发服务器

@@ -10,7 +10,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin"); // html插件
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // 提取css成单独文件
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin"); // 压缩css代码
 const TerserWebpackPlugin = require("terser-webpack-plugin");
-const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
+// const ImageMinimizerPlugin = require("image-minimizer-webpack-plugin");
 
 const threads = os.cpus().length;
 
@@ -145,34 +145,39 @@ module.exports = {
                 parallel: threads, // 开启多进程和设置进程数量
             }),
             // 压缩图片
-            new ImageMinimizerPlugin({
-                minimizer: {
-                    implementation: ImageMinimizerPlugin.imageminGenerate,
-                    options: {
-                        plugins: [
-                            ["gifsicle", { interlaced: true }],
-                            ["jpegtran", { progressive: true }],
-                            ["optipng", { optimizationLevel: 5 }],
-                            [
-                                "svgo",
-                                {
-                                    plugins: [
-                                        "preset-default",
-                                        "prefixIds",
-                                        {
-                                            name: "sortAttrs",
-                                            params: {
-                                                xmlnsOrder: "alphabetical",
-                                            },
-                                        },
-                                    ],
-                                },
-                            ],
-                        ],
-                    },
-                },
-            }),
+            // new ImageMinimizerPlugin({
+            //     minimizer: {
+            //         implementation: ImageMinimizerPlugin.imageminGenerate,
+            //         options: {
+            //             plugins: [
+            //                 ["gifsicle", { interlaced: true }],
+            //                 ["jpegtran", { progressive: true }],
+            //                 ["optipng", { optimizationLevel: 5 }],
+            //                 [
+            //                     "svgo",
+            //                     {
+            //                         plugins: [
+            //                             "preset-default",
+            //                             "prefixIds",
+            //                             {
+            //                                 name: "sortAttrs",
+            //                                 params: {
+            //                                     xmlnsOrder: "alphabetical",
+            //                                 },
+            //                             },
+            //                         ],
+            //                     },
+            //                 ],
+            //             ],
+            //         },
+            //     },
+            // }),
         ],
+        // 代码分割配置
+        splitChunks: {
+            chunks: "all", // 全部都要分割
+            // 其他的都用默认值
+        }
     },
     // 插件
     plugins: [
